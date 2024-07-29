@@ -24,7 +24,7 @@ class Service(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f'{self.title} _ {self.username}'
+        return f'{self.title} by {self.username}'
 
 class User(AbstractUser):
     services = models.ManyToManyField(Service, related_name='users', blank=True)

@@ -22,6 +22,7 @@
 </style>
 
 <div class="whole">
+
     <div class="type">
         <a href="{{ request.path }}">All</a>
         {% for type in type %}
@@ -29,7 +30,6 @@
             <a href="{{ request.path }}?lookfor={{ type.name }}">{{ type }}</a>
         {% endfor %}
     </div>
-
 
     <div class="card-mover">
         {% for service in services %}
@@ -40,6 +40,17 @@
                     <h5 class="card-title">{{service.price}}</h5>
                     <h6>{{ service.username }}</h6>
                     <p class="card-text">{{service.description |slice:":100"}}</p>
+
+
+                    {% if request.user.is_authenticated %}
+                        {% if service in request.user.services.all %}
+                            <a href="{% url 'remove_service' service.id %}" style="color: red;" class="btn btn-primary">remove</a>
+                        {% else %}
+                            <a href="{% url 'saving' service.id %}" class="btn btn-primary">save</a>
+                        {% endif %}
+                    {% endif %}
+
+
                 </div>
             </div>
         {% endfor %}
