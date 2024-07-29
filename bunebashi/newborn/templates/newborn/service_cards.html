@@ -1,0 +1,47 @@
+<style>
+    .whole {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+
+    }
+
+    .card-mover {
+        display: flex;
+        flex-direction: row;
+        margin-left: 5px;
+    }
+    .type {
+        margin-left: 45%;
+
+    }
+
+    a {
+    text-decoration: none;
+    color: black;
+    }
+</style>
+
+<div class="whole">
+    <div class="type">
+        <a href="{{ request.path }}">All</a>
+        {% for type in type %}
+            <hr>
+            <a href="{{ request.path }}?lookfor={{ type.name }}">{{ type }}</a>
+        {% endfor %}
+    </div>
+
+
+    <div class="card-mover">
+        {% for service in services %}
+            <div class="card" style="width: 18rem; margin: 10px;">
+                <img src="{{ service.picture.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{service.title}}</h5>
+                    <h5 class="card-title">{{service.price}}</h5>
+                    <h6>{{ service.username }}</h6>
+                    <p class="card-text">{{service.description |slice:":100"}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
