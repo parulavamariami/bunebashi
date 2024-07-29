@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Service, User, Type
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
+#from forms import MyUserCreationForm, BookForm, UserForm
 
 def home(request):
     return render(request, 'newborn/home.html')
@@ -25,20 +25,20 @@ def sservices(request):
     type = Type.objects.all()
     context = {'services': services, 'heading': heading, 'type': type}
     return render(request, 'newborn/services.html', context)
-
+@login_required(login_url='login')
 def profile(request, userid):
     user = User.objects.get(id=userid)
     services = user.services.all()
     heading = 'My Wishlist'
     context = {'services': services, 'heading': heading}
     return render(request, 'newborn/profile.html', context)
-
+@login_required(login_url='login')
 def saving(request, userid):
     user = request.user
     serviceid = Service.objects.get(id=userid)
     user.services.add(serviceid)
-    return redirect('newborn/profile.html', user.id)
-
+    return redirect('profile', user.id)
+@login_required(login_url='login')
 def remove(request, userid):
 
     obj = Service.objects.get(id=userid)
@@ -47,7 +47,7 @@ def remove(request, userid):
 
     if request.method == "POST":
         request.user.services.remove(obj)
-        return redirect('newborn/profile.html', request.user.id)
+        return redirect('profile', request.user.id)
 
     return render(request, 'newborn/delete.html', context)
 
@@ -82,44 +82,30 @@ def logout_user(request):
     return redirect('home')
 
 def register_user(request):
+
     heading = 'Sign Up'
-    context = {'heading': heading}
+    context = {'heading': heading} #'form': form}
     return render(request, 'newborn/register.html', context)
+''' 
+    
+    form = MyUserCreationForm()
+
+    if request.method == 'POST':
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('profile', user.id)
+        else:
+            pass'''
+
+
 
 
 """def myservices(request, userid):
     registred_users = Service.user.all()
     print(registred_users)
 
-    return render(request, 'newborn/my_services.html', context)
-
-def profile(request):
-    return render(request, 'services/profile.html')
-
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserRegisterForm()
-    return render(request, 'services/register.html', {'form': form})
-
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'services/login.html', {'form': form})"""
+    return render(request, 'newborn/my_services.html', context)"""

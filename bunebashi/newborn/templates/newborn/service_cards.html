@@ -34,7 +34,7 @@
     <div class="card-mover">
         {% for service in services %}
             <div class="card" style="width: 18rem; margin: 10px;">
-                <img src="{{ service.picture.url }}" class="card-img-top" alt="...">
+                <img src="{{service.picture.url}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{service.title}}</h5>
                     <h5 class="card-title">{{service.price}}</h5>
@@ -44,7 +44,7 @@
 
                     {% if request.user.is_authenticated %}
                         {% if service in request.user.services.all %}
-                            <a href="{% url 'remove_service' service.id %}" style="color: red;" class="btn btn-primary">remove</a>
+                            <a href="{% url 'remove_service' service.id %}" style="background-color: red;" class="btn btn-primary">remove</a>
                         {% else %}
                             <a href="{% url 'saving' service.id %}" class="btn btn-primary">save</a>
                         {% endif %}

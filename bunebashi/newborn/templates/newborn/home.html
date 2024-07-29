@@ -3,17 +3,51 @@
 {% block title %} <title>Home Page</title>{% endblock %}
 
 {% block content %}
+<style>
+  .background-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: url('https://scx2.b-cdn.net/gfx/news/hires/2019/2-nature.jpg') no-repeat center/cover;
+  }
 
-<div  style="text-align: center;" class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  .background-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2); /* 20% opacity overlay */
+  }
 
-  <main class="px-3">
-    <h1> What is Bunebashi actually?</h1>
-    <p class="lead">we are space for people. we are giving you opportunity to go out in the nature or create service that you enjoy. get more than experience thought this path</p>
-    <p class="lead">
-      <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">join us</a>
-    </p>
-  </main>
+  .content {
+      position: relative;
+      z-index: 1; /* Ensures the content is above the overlay */
+      color: white; /* Example text color to make content stand out */
+      padding: 20px;
 
+  .button{
+      color:white;
+
+  }
+</style>
+
+<div class="background-container">
+  <div class="content">
+    <div  style="text-align: center;" class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <main class="px-3">
+      <img class="mb-4" src="https://png.pngtree.com/png-vector/20220703/ourmid/pngtree-agriculture-wheat-vector-icon-design-png-image_5559413.png" alt="" width="200" height="185">
+      <h1> What is Bunebashi actually?</h1>
+      <p class="lead">we are space for people. we are giving you opportunity to go out in the nature or create service that you enjoy. get more than experience thought this path</p>
+      <p class="lead">
+        <a href="{% url 'signup' %}"><button type="button" class="btn btn-warning">Join Us</button></a>
+      </p>
+    </main>
+
+    </div>
+  </div>
 </div>
 
 {% endblock %}
